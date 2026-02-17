@@ -211,7 +211,7 @@ export function LandingPage() {
             flex: '0 0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center',
             minWidth: '200px',
           }}>
-            <AsciiGlobe size="medium" showHotspots={true} />
+            <AsciiGlobe size="medium" />
           </div>
         </div>
       </section>
