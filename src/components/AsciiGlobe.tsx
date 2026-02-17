@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 /**
  * ASCII Globe with rotating animation and pulsing hotspots
  * Creates a 3D-like rotating globe effect using ASCII characters
+ * Fixed: proper rendering with visible colors on dark background
  */
 
 interface GlobeProps {
@@ -10,178 +11,132 @@ interface GlobeProps {
   showHotspots?: boolean
 }
 
-// ASCII globe frame data - pre-calculated frames for rotation
+// Better ASCII globe frames with clearer visual
 const GLOBE_FRAMES = [
-  [
-    "          ░░░░░          ",
-    "       ░░░░░░░░░░░       ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "   ░░░░░░●░░░░░░●░░░░░   ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "       ░░░░░░░░░░░       ",
-    "          ░░░░░          ",
-  ],
-  [
-    "          ░░░░░          ",
-    "       ░░░░░░░░░░░       ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "   ░░░░●░░░░░░░░░░●░░░   ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "       ░░░░░░░░░░░       ",
-    "          ░░░░░          ",
-  ],
-  [
-    "          ░░░░░          ",
-    "       ░░░░░░░░░░░       ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "   ░░░░░●░░░░░░░●░░░░░   ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "       ░░░░░░░░░░░       ",
-    "          ░░░░░          ",
-  ],
-  [
-    "          ░░░░░          ",
-    "       ░░░░░░░░░░░       ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "   ░░░●░░░░░░░░░░●░░░░   ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "       ░░░░░░░░░░░       ",
-    "          ░░░░░          ",
-  ],
-  [
-    "          ░░░░░          ",
-    "       ░░░░░░░░░░░       ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "    ░░░░░░░░░░░░░░░░░    ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "   ░░░░░░░░░░░░░░░░░░░   ",
-    "    ░░░░░░●░░░░░░░░░░    ",
-    "     ░░░░░░░░░░░░░░░     ",
-    "       ░░░░░░░░░░░       ",
-    "          ░░░░░          ",
-  ],
-]
-
-const HOTSPOT_POSITIONS = [
-  { frame: 0, row: 4, col: 10 },
-  { frame: 1, row: 4, col: 9 },
-  { frame: 2, row: 5, col: 10 },
-  { frame: 3, row: 5, col: 9 },
-  { frame: 4, row: 6, col: 10 },
+  // Frame 0
+`        ***       
+     *********    
+   *************  
+  *************** 
+  ******●*****●** 
+  ****************
+   *************  
+     *********    
+        ***       `,
+  // Frame 1
+`        ***       
+     *********    
+   *************  
+  *************** 
+  *****●********* 
+  ****●***********
+   *************  
+     *********    
+        ***       `,
+  // Frame 2
+`        ***       
+     *********    
+   *************  
+  *************** 
+  *************●**
+  ******●*********
+   *************  
+     *********    
+        ***       `,
+  // Frame 3
+`        ***       
+     *********    
+   *************  
+  *************** 
+  **************●*
+  *************●**
+   *************  
+     *********    
+        ***       `,
+  // Frame 4
+`        ***       
+     *********    
+   *************  
+  *************** 
+  *************** 
+  **************●*
+   *****●*****   
+     *********    
+        ***       `,
 ]
 
 const SIZE_CONFIG = {
-  small: { fontSize: '8px', padding: '20px' },
-  medium: { fontSize: '14px', padding: '30px' },
-  large: { fontSize: '20px', padding: '40px' },
+  small: { fontSize: '10px', lineHeight: '1.2', maxWidth: '200px' },
+  medium: { fontSize: '14px', lineHeight: '1.2', maxWidth: '300px' },
+  large: { fontSize: '18px', lineHeight: '1.2', maxWidth: '400px' },
 }
 
 export function AsciiGlobe({ size = 'medium' }: GlobeProps) {
   const [frameIndex, setFrameIndex] = useState(0)
-  const [hoveredSpot, setHoveredSpot] = useState<number | null>(null)
 
-  // Rotation animation
+  // Rotation animation - faster for smoother effect
   useEffect(() => {
     const interval = setInterval(() => {
       setFrameIndex((prev) => (prev + 1) % GLOBE_FRAMES.length)
-    }, 800)
+    }, 600)
 
     return () => clearInterval(interval)
   }, [])
 
   const config = SIZE_CONFIG[size]
   const currentFrame = GLOBE_FRAMES[frameIndex]
-  const hotspots = HOTSPOT_POSITIONS.filter(h => h.frame === frameIndex)
 
   return (
-    <div 
-      className="globe-container"
-      style={{ 
+    <div
+      style={{
+        fontFamily: '"Courier New", monospace',
         fontSize: config.fontSize,
-        padding: config.padding,
+        lineHeight: config.lineHeight,
+        maxWidth: config.maxWidth,
+        color: '#ffffff',
+        textAlign: 'center',
+        userSelect: 'none',
+        overflow: 'hidden',
       }}
     >
-      {currentFrame.map((line, rowIndex) => {
-        const hotspotAtPosition = hotspots.find(h => h.row === rowIndex)
-        const isHovered = hotspotAtPosition && hoveredSpot === hotspotAtPosition.col
-
-        return (
-          <span 
-            key={rowIndex} 
-            className="globe-line"
-            style={{
-              color: hotspotAtPosition 
-                ? '#ffffff' 
-                : 'rgba(255, 255, 255, 0.6)',
-              display: 'inline-block',
-              minWidth: line.length + 'ch',
-            }}
-          >
-            {line.split('').map((char, colIndex) => {
-              const isHotspot = hotspotAtPosition && hotspotAtPosition.col === colIndex
-              
-              if (isHotspot) {
-                return (
-                  <span
-                    key={colIndex}
-                    className={`hotspot ${isHovered ? 'cursor-pointer' : ''}`}
-                    onMouseEnter={() => setHoveredSpot(colIndex)}
-                    onMouseLeave={() => setHoveredSpot(null)}
-                    style={{
-                      color: isHovered ? '#ffffff' : 'rgba(255, 255, 255, 0.9)',
-                      textShadow: isHovered ? '0 0 20px rgba(255, 255, 255, 0.8)' : 'none',
-                    }}
-                  >
-                    {char}
-                  </span>
-                )
-              }
-
-              return (
-                <span 
-                  key={colIndex}
-                  style={{ 
-                    opacity: char === ' ' ? 0 : undefined 
-                  }}
-                >
-                  {char}
-                </span>
-              )
-            })}
-          </span>
-        )
-      })}
-      
-      {/* Hotspot labels on hover */}
-      {hoveredSpot !== null && (
-        <div 
+      {currentFrame.split('\n').map((line, rowIndex) => (
+        <div
+          key={rowIndex}
           style={{
-            position: 'absolute',
-            bottom: '-30px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: 'rgba(255, 255, 255, 0.1)',
-            padding: '4px 12px',
-            borderRadius: '4px',
-            fontSize: '10px',
-            whiteSpace: 'nowrap',
+            whiteSpace: 'pre',
+            letterSpacing: '2px',
           }}
         >
-          {hoveredSpot % 2 === 0 ? 'Server Active' : 'Node Connected'}
+          {line.includes('●') ? (
+            <>
+              {line.split('●').map((part, i, arr) => (
+                <span key={i}>
+                  {part}
+                  {i < arr.length - 1 && (
+                    <span
+                      style={{
+                        color: '#00ff88',
+                        textShadow: '0 0 10px #00ff88, 0 0 20px #00ff88',
+                        animation: 'pulse 1.5s ease-in-out infinite',
+                      }}
+                    >
+                      ●
+                    </span>
+                  )}
+                </span>
+              ))}
+            </>
+          ) : (
+            <span style={{ color: 'rgba(255,255,255,0.7)' }}>{line}</span>
+          )}
         </div>
-      )}
+      ))}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.2); }
+        }
+      `}</style>
     </div>
   )
 }

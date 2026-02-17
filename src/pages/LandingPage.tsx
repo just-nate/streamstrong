@@ -13,12 +13,13 @@ import {
 import { useState } from 'react'
 
 /**
- * Landing page component for StreamStrong
+ * StreamStrong Landing Page
  * Low-latency streaming company
- * Dark mode, black/white Vercel-style design
- * Mobile responsive
+ * Dark mode, black/white Vercel-style
+ * Mobile responsive - no scrolling issues
  */
 
+// Product sections data
 const FEATURES = [
   {
     icon: Zap,
@@ -28,7 +29,7 @@ const FEATURES = [
   {
     icon: Globe,
     title: 'Global Distribution',
-    description: '300+ edge locations ensuring your stream reaches everyone, everywhere.',
+    description: '300+ edge locations ensuring your stream reaches everyone.',
   },
   {
     icon: Shield,
@@ -46,42 +47,24 @@ const PRICING = [
   {
     name: 'Starter',
     price: '$29',
-    period: '/month',
-    features: [
-      'Up to 1,000 viewers',
-      '10GB storage',
-      'Basic analytics',
-      'Email support',
-    ],
+    period: '/mo',
+    features: ['1,000 viewers', '10GB storage', 'Basic analytics', 'Email support'],
     cta: 'Start Free',
     popular: false,
   },
   {
     name: 'Professional',
     price: '$99',
-    period: '/month',
-    features: [
-      'Up to 10,000 viewers',
-      '100GB storage',
-      'Advanced analytics',
-      'Priority support',
-      'Custom branding',
-    ],
-    cta: 'Start Free Trial',
+    period: '/mo',
+    features: ['10,000 viewers', '100GB storage', 'Advanced analytics', 'Priority support', 'Custom branding'],
+    cta: 'Start Trial',
     popular: true,
   },
   {
     name: 'Enterprise',
     price: 'Custom',
     period: '',
-    features: [
-      'Unlimited viewers',
-      'Unlimited storage',
-      'Custom analytics',
-      '24/7 dedicated support',
-      'SLA guarantee',
-      'On-premise option',
-    ],
+    features: ['Unlimited viewers', 'Unlimited storage', 'Custom analytics', '24/7 dedicated support', 'SLA guarantee'],
     cta: 'Contact Sales',
     popular: false,
   },
@@ -89,8 +72,8 @@ const PRICING = [
 
 const STATS = [
   { value: '300+', label: 'Edge Locations' },
-  { value: '50M+', label: 'Streams Delivered' },
-  { value: '99.999%', label: 'Uptime SLA' },
+  { value: '50M+', label: 'Streams' },
+  { value: '99.999%', label: 'Uptime' },
   { value: '<100ms', label: 'Latency' },
 ]
 
@@ -98,617 +81,227 @@ export function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#000000', color: '#ffffff' }}>
-      <style>{`
-        @media (max-width: 768px) {
-          .hero-grid {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-            text-align: center;
-          }
-          .hero-content {
-            order: 1;
-          }
-          .hero-globe {
-            order: 0;
-          }
-          .features-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 24px !important;
-          }
-          .pricing-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .nav-links {
-            display: none !important;
-          }
-          .nav-mobile {
-            display: flex !important;
-          }
-          .footer-content {
-            flex-direction: column !important;
-            gap: 24px !important;
-            text-align: center !important;
-          }
-          .footer-links {
-            flex-wrap: wrap !important;
-            justify-content: center !important;
-          }
-          .hero-title {
-            font-size: 36px !important;
-          }
-          .section-title {
-            font-size: 28px !important;
-          }
-          .hero-padding {
-            padding: 100px 20px 60px !important;
-          }
-          .section-padding {
-            padding: 60px 20px !important;
-          }
-          .stat-value {
-            font-size: 32px !important;
-          }
-          .globe-floating {
-            display: none !important;
-          }
-        }
-        @media (min-width: 769px) {
-          .nav-mobile {
-            display: none !important;
-          }
-        }
-      `}</style>
-
+    <div style={{ minHeight: '100vh', backgroundColor: '#000', color: '#fff', overflowX: 'hidden' }}>
       {/* Navigation */}
       <nav style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        height: '64px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 24px',
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        zIndex: 100,
+        position: 'fixed', top: 0, left: 0, right: 0,
+        height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '0 5%', backgroundColor: 'rgba(0,0,0,0.9)', backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid rgba(255,255,255,0.1)', zIndex: 1000,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <Globe size={24} color="#ffffff" />
-          <span style={{ 
-            fontSize: '18px', 
-            fontWeight: 600,
-            letterSpacing: '-0.5px',
-          }}>
-            StreamStrong
-          </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Globe size={22} />
+          <span style={{ fontSize: '18px', fontWeight: 600 }}>StreamStrong</span>
         </div>
         
-        {/* Desktop Nav */}
-        <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
-          <a href="#features" style={{ 
-            color: '#888', 
-            textDecoration: 'none',
-            fontSize: '14px',
-            transition: 'color 0.2s',
-          }}>
-            Features
-          </a>
-          <a href="#pricing" style={{ 
-            color: '#888', 
-            textDecoration: 'none',
-            fontSize: '14px',
-            transition: 'color 0.2s',
-          }}>
-            Pricing
-          </a>
-          <a href="#contact" style={{ 
-            color: '#888', 
-            textDecoration: 'none',
-            fontSize: '14px',
-            transition: 'color 0.2s',
-          }}>
-            Contact
-          </a>
-          <button className="btn-hover" style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            border: 'none',
-            padding: '8px 16px',
-            borderRadius: '6px',
-            fontSize: '13px',
-            fontWeight: 500,
-            cursor: 'pointer',
+        {/* Desktop nav */}
+        <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <a href="#features" style={{ color: '#888', textDecoration: 'none', fontSize: '14px' }}>Features</a>
+          <a href="#pricing" style={{ color: '#888', textDecoration: 'none', fontSize: '14px' }}>Pricing</a>
+          <a href="#contact" style={{ color: '#888', textDecoration: 'none', fontSize: '14px' }}>Contact</a>
+          <button style={{
+            backgroundColor: '#fff', color: '#000', border: 'none',
+            padding: '8px 16px', borderRadius: '6px', fontSize: '13px', fontWeight: 500, cursor: 'pointer',
           }}>
             Get Started
           </button>
         </div>
 
-        {/* Mobile Nav */}
-        <div className="nav-mobile">
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: '#fff',
-              cursor: 'pointer',
-              padding: '8px',
-            }}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
+        {/* Mobile menu button */}
+        <button 
+          className="nav-mobile-btn"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{ background: 'transparent', border: 'none', color: '#fff', cursor: 'pointer', padding: '8px', display: 'none' }}
+        >
+          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </nav>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile dropdown */}
       {mobileMenuOpen && (
         <div style={{
-          position: 'fixed',
-          top: '64px',
-          left: 0,
-          right: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.95)',
-          backdropFilter: 'blur(10px)',
-          padding: '20px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          zIndex: 99,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '16px',
+          position: 'fixed', top: '64px', left: 0, right: 0,
+          backgroundColor: 'rgba(0,0,0,0.98)', padding: '20px', borderBottom: '1px solid rgba(255,255,255,0.1)',
+          zIndex: 999,
         }}>
-          <a 
-            href="#features" 
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ color: '#888', textDecoration: 'none', fontSize: '16px', padding: '8px 0' }}
-          >
-            Features
-          </a>
-          <a 
-            href="#pricing" 
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ color: '#888', textDecoration: 'none', fontSize: '16px', padding: '8px 0' }}
-          >
-            Pricing
-          </a>
-          <a 
-            href="#contact" 
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ color: '#888', textDecoration: 'none', fontSize: '16px', padding: '8px 0' }}
-          >
-            Contact
-          </a>
-          <button className="btn-hover" style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            border: 'none',
-            padding: '12px',
-            borderRadius: '6px',
-            fontSize: '14px',
-            fontWeight: 500,
-            cursor: 'pointer',
-            marginTop: '8px',
-          }}>
-            Get Started
-          </button>
+          <a onClick={() => setMobileMenuOpen(false)} href="#features" style={{ display: 'block', color: '#888', textDecoration: 'none', padding: '12px 0', fontSize: '16px' }}>Features</a>
+          <a onClick={() => setMobileMenuOpen(false)} href="#pricing" style={{ display: 'block', color: '#888', textDecoration: 'none', padding: '12px 0', fontSize: '16px' }}>Pricing</a>
+          <a onClick={() => setMobileMenuOpen(false)} href="#contact" style={{ display: 'block', color: '#888', textDecoration: 'none', padding: '12px 0', fontSize: '16px' }}>Contact</a>
         </div>
       )}
 
       {/* Hero Section */}
-      <section className="hero-padding" style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '120px 24px 80px',
-        position: 'relative',
-        overflow: 'hidden',
+      <section style={{
+        minHeight: '100vh', padding: '100px 5% 60px', display: 'flex', alignItems: 'center',
+        position: 'relative', overflow: 'hidden',
       }}>
         {/* Background glow */}
         <div style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '100%',
-          maxWidth: '600px',
-          height: '600px',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)',
+          position: 'absolute', top: '30%', left: '50%', transform: 'translate(-50%, -50%)',
+          width: '80vw', height: '80vw', maxWidth: '600px', maxHeight: '600px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)',
           pointerEvents: 'none',
         }} />
 
-        <div className="hero-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '60px',
-          maxWidth: '1200px',
-          width: '100%',
-          alignItems: 'center',
+        <div style={{
+          display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+          maxWidth: '1200px', margin: '0 auto', width: '100%', gap: '40px',
         }}>
-          {/* Left: Text */}
-          <div className="hero-content animate-fade-in">
+          {/* Left: Text content */}
+          <div style={{ flex: '1', minWidth: 0 }}>
             <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              padding: '6px 14px',
-              borderRadius: '20px',
-              marginBottom: '20px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              display: 'inline-flex', alignItems: 'center', gap: '8px',
+              backgroundColor: 'rgba(255,255,255,0.05)', padding: '6px 12px',
+              borderRadius: '20px', marginBottom: '20px', border: '1px solid rgba(255,255,255,0.1)',
             }}>
-              <Zap size={14} color="#ffffff" />
-              <span style={{ fontSize: '12px', color: '#888' }}>
-                Now with WebRTC support
-              </span>
+              <Zap size={14} />
+              <span style={{ fontSize: '12px', color: '#888' }}>WebRTC Ready</span>
             </div>
             
-            <h1 className="hero-title" style={{
-              fontSize: '48px',
-              fontWeight: 600,
-              lineHeight: '1.1',
-              marginBottom: '20px',
-              letterSpacing: '-2px',
+            <h1 style={{
+              fontSize: 'clamp(32px, 6vw, 52px)', fontWeight: 600, lineHeight: '1.1',
+              marginBottom: '16px', letterSpacing: '-1.5px',
             }}>
               Streaming at the{' '}
-              <span className="gradient-text glow">speed of thought</span>
+              <span style={{ 
+                background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
+                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+              }}>
+                speed of thought
+              </span>
             </h1>
             
             <p style={{
-              fontSize: '16px',
-              color: '#888',
-              lineHeight: '1.6',
-              marginBottom: '32px',
-              maxWidth: '480px',
+              fontSize: 'clamp(14px, 2vw, 17px)', color: '#888', lineHeight: '1.6',
+              marginBottom: '28px', maxWidth: '480px',
             }}>
-              Experience ultra-low latency streaming with our global edge network. 
-              Built for developers who demand performance.
+              Ultra-low latency streaming with global edge network. Built for developers who demand performance.
             </p>
             
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-              <button className="btn-hover" style={{
-                backgroundColor: '#ffffff',
-                color: '#000000',
-                border: 'none',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '40px' }}>
+              <button style={{
+                backgroundColor: '#fff', color: '#000', border: 'none',
+                padding: '12px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '8px',
               }}>
-                Start Building
-                <ArrowRight size={16} />
+                Start Building <ArrowRight size={16} />
               </button>
-              <button className="btn-hover" style={{
-                backgroundColor: 'transparent',
-                color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                padding: '12px 24px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
+              <button style={{
+                backgroundColor: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)',
+                padding: '12px 24px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: '8px',
               }}>
-                <Play size={16} />
-                Watch Demo
+                <Play size={16} /> Demo
               </button>
             </div>
             
-            {/* Stats preview */}
-            <div style={{
-              display: 'flex',
-              gap: '32px',
-              marginTop: '48px',
-              paddingTop: '32px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            }}>
-              {STATS.slice(0, 2).map((stat, index) => (
-                <div key={index} className="animate-fade-in" style={{ animationDelay: `${0.2 + index * 0.1}s` }}>
-                  <div style={{ fontSize: '24px', fontWeight: 600, marginBottom: '4px' }}>
-                    {stat.value}
-                  </div>
-                  <div style={{ fontSize: '12px', color: '#666' }}>
-                    {stat.label}
-                  </div>
+            {/* Stats */}
+            <div style={{ display: 'flex', gap: '32px', flexWrap: 'wrap' }}>
+              {STATS.slice(0, 2).map((stat, i) => (
+                <div key={i}>
+                  <div style={{ fontSize: '24px', fontWeight: 600 }}>{stat.value}</div>
+                  <div style={{ fontSize: '12px', color: '#666' }}>{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
           
           {/* Right: ASCII Globe */}
-          <div className="hero-globe" style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
+          <div style={{
+            flex: '0 0 auto', display: 'flex', justifyContent: 'center', alignItems: 'center',
+            minWidth: '200px',
           }}>
             <AsciiGlobe size="medium" showHotspots={true} />
-            
-            {/* Floating stats around globe - desktop only */}
-            <div className="globe-floating" style={{
-              position: 'absolute',
-              top: '10%',
-              right: '0%',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#22c55e',
-                }} />
-                <span style={{ fontSize: '11px', color: '#888' }}>
-                  50K+ connected
-                </span>
-              </div>
-            </div>
-            
-            <div className="globe-floating" style={{
-              position: 'absolute',
-              bottom: '15%',
-              left: '0%',
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              padding: '10px 14px',
-              borderRadius: '8px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              backdropFilter: 'blur(10px)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <div style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  backgroundColor: '#3b82f6',
-                }} />
-                <span style={{ fontSize: '11px', color: '#888' }}>
-                  Latency: 47ms
-                </span>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="section-padding" style={{
-        padding: '80px 24px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      }}>
+      {/* Features */}
+      <section id="features" style={{ padding: '60px 5%', maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h2 className="section-title" style={{
-            fontSize: '36px',
-            fontWeight: 600,
-            marginBottom: '16px',
-            letterSpacing: '-1px',
-          }}>
-            Built for{' '}
-            <span className="gradient-text">performance</span>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 600, marginBottom: '12px' }}>
+            Built for <span style={{ 
+              background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>performance</span>
           </h2>
-          <p style={{
-            fontSize: '16px',
-            color: '#888',
-            maxWidth: '500px',
-            margin: '0 auto',
-          }}>
-            Every component engineered for minimal latency and maximum reliability.
-          </p>
+          <p style={{ fontSize: '15px', color: '#888' }}>Engineered for minimal latency and maximum reliability.</p>
         </div>
         
-        <div className="features-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(2, 1fr)',
-          gap: '20px',
-        }}>
-          {FEATURES.map((feature, index) => (
-            <div 
-              key={index}
-              className="animate-fade-in"
-              style={{ 
-                animationDelay: `${index * 0.1}s`,
-                backgroundColor: 'rgba(255, 255, 255, 0.02)',
-                border: '1px solid rgba(255, 255, 255, 0.05)',
-                borderRadius: '12px',
-                padding: '24px',
-                transition: 'all 0.3s ease',
-              }}
-            >
-              <div style={{
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderRadius: '10px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '16px',
-              }}>
-                <feature.icon size={20} color="#ffffff" />
-              </div>
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 600,
-                marginBottom: '8px',
-              }}>
-                {feature.title}
-              </h3>
-              <p style={{
-                fontSize: '14px',
-                color: '#888',
-                lineHeight: '1.5',
-              }}>
-                {feature.description}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="section-padding" style={{
-        padding: '60px 24px',
-        backgroundColor: 'rgba(255, 255, 255, 0.01)',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-      }}>
         <div style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '32px',
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px',
         }}>
-          {STATS.map((stat, index) => (
-            <div key={index} style={{ textAlign: 'center' }}>
-              <div className="stat-value" style={{
-                fontSize: '36px',
-                fontWeight: 600,
-                marginBottom: '4px',
-                letterSpacing: '-1px',
-              }}>
-                {stat.value}
+          {FEATURES.map((f, i) => (
+            <div key={i} style={{
+              backgroundColor: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)',
+              borderRadius: '12px', padding: '24px',
+            }}>
+              <div style={{ width: '40px', height: '40px', backgroundColor: 'rgba(255,255,255,0.05)',
+                borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
+                <f.icon size={20} />
               </div>
-              <div style={{
-                fontSize: '12px',
-                color: '#666',
-              }}>
-                {stat.label}
-              </div>
+              <h3 style={{ fontSize: '17px', fontWeight: 600, marginBottom: '8px' }}>{f.title}</h3>
+              <p style={{ fontSize: '14px', color: '#888', lineHeight: '1.5' }}>{f.description}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="section-padding" style={{
-        padding: '80px 24px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      }}>
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <h2 className="section-title" style={{
-            fontSize: '36px',
-            fontWeight: 600,
-            marginBottom: '16px',
-            letterSpacing: '-1px',
-          }}>
-            Simple, <span className="gradient-text">transparent pricing</span>
+      {/* Stats */}
+      <section style={{ padding: '50px 5%', backgroundColor: 'rgba(255,255,255,0.01)',
+        borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
+          {STATS.map((s, i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 600 }}>{s.value}</div>
+              <div style={{ fontSize: '12px', color: '#666' }}>{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Pricing */}
+      <section id="pricing" style={{ padding: '60px 5%', maxWidth: '1000px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 600, marginBottom: '12px' }}>
+            Simple <span style={{ 
+              background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>pricing</span>
           </h2>
-          <p style={{
-            fontSize: '16px',
-            color: '#888',
-          }}>
-            No hidden fees. No surprises. Cancel anytime.
-          </p>
+          <p style={{ fontSize: '15px', color: '#888' }}>No hidden fees. Cancel anytime.</p>
         </div>
         
-        <div className="pricing-grid" style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '20px',
-          maxWidth: '1000px',
-          margin: '0 auto',
+        <div style={{
+          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px',
         }}>
-          {PRICING.map((plan, index) => (
-            <div 
-              key={index}
-              style={{
-                backgroundColor: plan.popular 
-                  ? 'rgba(255, 255, 255, 0.03)' 
-                  : 'rgba(255, 255, 255, 0.01)',
-                border: plan.popular 
-                  ? '1px solid rgba(255, 255, 255, 0.2)' 
-                  : '1px solid rgba(255, 255, 255, 0.05)',
-                borderRadius: '12px',
-                padding: '24px',
-                position: 'relative',
-                transition: 'all 0.3s ease',
-              }}
-            >
+          {PRICING.map((plan, i) => (
+            <div key={i} style={{
+              backgroundColor: plan.popular ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.01)',
+              border: plan.popular ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(255,255,255,0.05)',
+              borderRadius: '12px', padding: '24px', position: 'relative',
+            }}>
               {plan.popular && (
-                <div style={{
-                  position: 'absolute',
-                  top: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  backgroundColor: '#ffffff',
-                  color: '#000000',
-                  padding: '4px 12px',
-                  borderRadius: '10px',
-                  fontSize: '11px',
-                  fontWeight: 500,
-                }}>
-                  Most Popular
+                <div style={{ position: 'absolute', top: '-10px', left: '50%', transform: 'translateX(-50%)',
+                  backgroundColor: '#fff', color: '#000', padding: '4px 12px', borderRadius: '10px', fontSize: '11px', fontWeight: 500 }}>
+                  Popular
                 </div>
               )}
-              
-              <h3 style={{
-                fontSize: '18px',
-                fontWeight: 600,
-                marginBottom: '8px',
-              }}>
-                {plan.name}
-              </h3>
-              
-              <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '24px' }}>
-                <span style={{ fontSize: '36px', fontWeight: 600 }}>
-                  {plan.price}
-                </span>
-                <span style={{ fontSize: '14px', color: '#666', marginLeft: '4px' }}>
-                  {plan.period}
-                </span>
+              <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{plan.name}</h3>
+              <div style={{ display: 'flex', alignItems: 'baseline', marginBottom: '20px' }}>
+                <span style={{ fontSize: '32px', fontWeight: 600 }}>{plan.price}</span>
+                <span style={{ fontSize: '14px', color: '#666', marginLeft: '4px' }}>{plan.period}</span>
               </div>
-              
-              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0' }}>
-                {plan.features.map((feature, fIndex) => (
-                  <li 
-                    key={fIndex}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      marginBottom: '12px',
-                      fontSize: '13px',
-                      color: '#888',
-                    }}
-                  >
-                    <CheckCircle size={14} color="#22c55e" />
-                    {feature}
+              <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 20px 0' }}>
+                {plan.features.map((feat, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px', fontSize: '13px', color: '#888' }}>
+                    <CheckCircle size={14} style={{ color: '#22c55e' }} /> {feat}
                   </li>
                 ))}
               </ul>
-              
-              <button style={{
-                width: '100%',
-                backgroundColor: plan.popular ? '#ffffff' : 'transparent',
-                color: plan.popular ? '#000000' : '#ffffff',
-                border: plan.popular 
-                  ? 'none' 
-                  : '1px solid rgba(255, 255, 255, 0.2)',
-                padding: '12px',
-                borderRadius: '6px',
-                fontSize: '13px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}>
+              <button style={{ width: '100%', backgroundColor: plan.popular ? '#fff' : 'transparent',
+                color: plan.popular ? '#000' : '#fff', border: plan.popular ? 'none' : '1px solid rgba(255,255,255,0.2)',
+                padding: '12px', borderRadius: '6px', fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}>
                 {plan.cta}
               </button>
             </div>
@@ -716,101 +309,61 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="contact" className="section-padding" style={{
-        padding: '80px 24px',
-        maxWidth: '600px',
-        margin: '0 auto',
-        textAlign: 'center',
-      }}>
-        <h2 className="section-title" style={{
-          fontSize: '32px',
-          fontWeight: 600,
-          marginBottom: '20px',
-          letterSpacing: '-1px',
-        }}>
-          Ready to <span className="gradient-text">stream stronger</span>?
+      {/* CTA */}
+      <section id="contact" style={{ padding: '60px 5%', maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+        <h2 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 600, marginBottom: '16px' }}>
+          Ready to <span style={{ 
+            background: 'linear-gradient(135deg, #fff 0%, #888 100%)',
+            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+          }}>stream stronger</span>?
         </h2>
-        <p style={{
-          fontSize: '16px',
-          color: '#888',
-          marginBottom: '32px',
-        }}>
-          Join thousands of developers building the future of live streaming.
-        </p>
-        
+        <p style={{ fontSize: '15px', color: '#888', marginBottom: '28px' }}>Join thousands of developers building the future of live streaming.</p>
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          <button className="btn-hover" style={{
-            backgroundColor: '#ffffff',
-            color: '#000000',
-            border: 'none',
-            padding: '14px 28px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            fontWeight: 500,
-            cursor: 'pointer',
-          }}>
+          <button style={{ backgroundColor: '#fff', color: '#000', border: 'none', padding: '14px 28px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
             Start Free Trial
           </button>
-          <button style={{
-            backgroundColor: 'transparent',
-            color: '#ffffff',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            padding: '14px 28px',
-            borderRadius: '8px',
-            fontSize: '14px',
-            fontWeight: 500,
-            cursor: 'pointer',
-          }}>
+          <button style={{ backgroundColor: 'transparent', color: '#fff', border: '1px solid rgba(255,255,255,0.2)', padding: '14px 28px', borderRadius: '8px', fontSize: '14px', fontWeight: 500, cursor: 'pointer' }}>
             Schedule Demo
           </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{
-        padding: '40px 24px',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-      }}>
-        <div className="footer-content" style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '20px',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <Globe size={18} color="#ffffff" />
-            <span style={{ fontSize: '14px', fontWeight: 500 }}>
-              StreamStrong
-            </span>
+      <footer style={{ padding: '30px 5%', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Globe size={16} />
+            <span style={{ fontSize: '14px', fontWeight: 500 }}>StreamStrong</span>
           </div>
-          
-          <div className="footer-links" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            <a href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>
-              Documentation
-            </a>
-            <a href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>
-              API Reference
-            </a>
-            <a href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>
-              Status
-            </a>
-            <a href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>
-              Privacy
-            </a>
-            <a href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>
-              Terms
-            </a>
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            {['Docs', 'API', 'Status', 'Privacy', 'Terms'].map(link => (
+              <a key={link} href="#" style={{ color: '#666', textDecoration: 'none', fontSize: '12px' }}>{link}</a>
+            ))}
           </div>
-          
-          <div style={{ fontSize: '12px', color: '#444' }}>
-            © 2026 StreamStrong
-          </div>
+          <div style={{ fontSize: '12px', color: '#444' }}>© 2026 StreamStrong</div>
         </div>
       </footer>
+
+      {/* Responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .nav-desktop { display: none !important; }
+          .nav-mobile-btn { display: block !important; }
+          section > div {
+            flex-direction: column !important;
+            text-align: center !important;
+          }
+          section > div > div:first-child {
+            order: 1 !important;
+          }
+          section > div > div:last-child {
+            order: 0 !important;
+          }
+        }
+        @media (min-width: 769px) {
+          .nav-mobile-btn { display: none !important; }
+        }
+      `}</style>
     </div>
   )
 }
